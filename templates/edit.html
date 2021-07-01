@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDIT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div>
+        <form action="/update-inventory/{{item.id}}" method="POST">
+            <label for="size">Size</label>
+            <input list="sizes" type="text" name="size" id="size" value="{{item.size}}">
+            <datalist id="sizes">
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+            </datalist>
+
+            <label for="type">Type</label>
+            <input list="types" type="text" name="type" id="type" value="{{item.type}}">
+            <datalist id="types">
+                <option value="Americano">Americano</option>
+                <option value="Cappuccino">Cappuccino</option>
+                <option value="Espresso">Espresso</option>
+            </datalist>
+
+            <label for="quantity">Quantity</label>
+            <input type="quantity" name="quantity" id="quantity" value="{{item.quantity}}">
+
+            <button type="submit">UPDATE</button>
+        </form>
+    </div>
+</body>
+</html>

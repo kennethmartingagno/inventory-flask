@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVENTORY</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h3>INVENTORY</h3>
+        <a href="{{ url_for('orders') }}">Orders</a>
+    </div>
+    <div class="inventory-container">
+        <div>
+            <table class="scroll">
+                <thead>
+                    <tr>
+                        <th>Size</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{item.size}}</td>
+                        <td>{{item.type}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>
+                            <a href="/edit-inventory/{{item.id}}">Edit</a>
+                            <a href="/delete-inventory/{{item.id}}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div>
+                <button onclick="openForm()">ADD</button>
+            </div>
+            <div class="form-wrapper" id="inventoryForm">
+                <form action="{{ url_for('add_inventory')}}" method="POST" class="form-container">
+                    <label for="size">Size</label>
+                    <input list="sizes" type="text" name="size" id="size" required>
+                    <datalist id="sizes">
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+                    </datalist>
+        
+                    <label for="type">Type</label>
+                    <input list="types" type="text" name="type" id="type" required>
+                    <datalist id="types">
+                        <option value="Americano">Americano</option>
+                        <option value="Cappuccino">Cappuccino</option>
+                        <option value="Espresso">Espresso</option>
+                    </datalist>
+        
+                    <label for="quantity">Quantity</label>
+                    <input type="quantity" name="quantity" id="quantity" required>
+        
+                    <button type="submit">ADD ITEM</button>
+                    <button onclick="closeForm()">CLOSE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openForm() {
+            document.getElementById("inventoryForm").style.display = "block";
+        }
+        function closeForm() {
+            document.getElementById("inventoryForm").style.display = "none";
+        }
+    </script> 
+</html>
