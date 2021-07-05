@@ -27,4 +27,9 @@ conn.execute("""CREATE TABLE Inventory (
 	quantity INTEGER NOT NULL
 )""")
 
+conn.execute("""CREATE TABLE Users (
+	username TEXT,
+	password TEXT
+)""")
+
 conn.close()

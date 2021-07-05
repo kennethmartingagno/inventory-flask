@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <div class="header">
         <h3>ORDERS</h3>
         <a href="{{ url_for('inventory') }}">Inventory</a>

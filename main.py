@@ -1,10 +1,48 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'MMCAXcUQxV'
 
 @app.route("/")
+def login():
+    return render_template("login.html")
+
+@app.route("/login-user", methods=['POST', 'GET'])
+def login_user():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        with sqlite3.connect("storage.db") as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM Users WHERE username=? AND password =?", (username, password))
+            if not cur.fetchone():
+                flash("ACCOUNT NOT REGISTERED")
+                return redirect(url_for("login"))
+            else:
+                flash("SUCCESFUL LOG IN")
+                return redirect(url_for("orders"))
+
+@app.route("/sign-up")
+def signup():
+    return render_template("signup.html")
+
+@app.route("/register", methods=['POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        with sqlite3.connect("storage.db") as conn:
+            cur = conn.cursor()
+            cur.execute("INSERT INTO Users (username, password) VALUES (?,?)", (username, password))
+            conn.commit()
+            flash('SIGN UP SUCCESSFUL') 
+            return redirect(url_for("login"))
+
+
+@app.route("/order")
 def orders():
     conn = sqlite3.connect("storage.db")
     conn.row_factory = sqlite3.Row
